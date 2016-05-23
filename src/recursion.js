@@ -130,15 +130,19 @@ var reverse = function(string) {
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
-	/*var reverse = palindrome(string.slice(1)) + string.chatAt(1);
-	if (string.length === 1) {
-		return string;
-	}
-	if (reverse === string) {
+	if (string.length === 1 || string.length === 0) {
 		return true;
-	} else {
-		return false;
-	}*/
+	}
+	if (string[0] === ' ') {
+		return palindrome(string.slice(1));
+	}
+	if (string[string.length - 1] === ' '){
+		return palindrome(string.slice(0, -1));
+	}
+	if (string[0].toLowerCase() !== string[string.length - 1].toLowerCase()) {
+		return false; 
+	}
+	return palindrome(string.slice(1, -1));
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -206,10 +210,16 @@ var gcd = function(x, y) {
 // compareStr('', '') // true
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
-	/*if (str1.length !=== str2.length) {
+	if (str1.length !== str2.length) {
 		return false;
-	}*/
-
+	}
+	if (str1[0] !== str2[0]) {
+		return false;
+	}
+	if (str1.length === 0) {
+		return true;
+	}
+	return compareStr(str1.slice(1), str2.slice(1)); 
 };
 
 // 16. Write a function that accepts a string and creates an array where each letter
@@ -453,18 +463,52 @@ var letterTally = function(str, obj) {
 // Example: compress([1, 2, 2, 3, 4, 4, 5, 5, 5]) // [1, 2, 3, 4, 5]
 // Example: compress([1, 2, 2, 3, 4, 4, 2, 5, 5, 5, 4, 4]) // [1, 2, 3, 4, 2, 5, 4]
 var compress = function(list) {
+	var result = [];
+	if (list.length === 0) {
+		return result;
+	}
+	for (var i = 1; i <= list.length; i++) {
+		if (list[0] !== list[i]) {
+			result.push(list[0]);
+			return result.concat(compress(list.slice(i)));
+		} 
+	}
 };
 
 // 32. Augument every element in a list with a new value where each element is an array
 // itself.
 // Example: augmentElements([[],[3],[7]], 5); // [[5],[3,5],[7,5]]
 var augmentElements = function(array, aug) {
+	var result = [];
+	if (array.length === 0) {
+		result.push(aug);
+	}
+	for (var i = 0; i < array.length; i++) {
+		if (Array.isArray(array[i])) {
+			result.push(augmentElements(array[i], aug));
+		} else {
+			result.push(array[i]);
+        result.push(aug);
+		} 
+	}
+	return result;
 };
+
 
 // 33. Reduce a series of zeroes to a single 0.
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
 var minimizeZeroes = function(array) {
+	var result = [];
+	if (array.length === 0) {
+		return result;
+	}
+	for (var i = 1; i <= array.length; i++) {
+		if (array[0] !== array[i]) {
+			result.push(array[0]);
+			return result.concat(minimizeZeroes(array.slice(i)));
+		} 
+	}
 };
 
 // 34. Alternate the numbers in an array between positive and negative regardless of
@@ -472,6 +516,13 @@ var minimizeZeroes = function(array) {
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
 var alternateSign = function(array) {
+	/*for (var i = 0; i < array.length; i++) {
+		if (i % 2 === 0) {
+			if (array[i] > 0) {
+				return 
+			}
+		}
+	}*/
 };
 
 // 35. Given a string, return a string with digits converted to their word equivalent.
